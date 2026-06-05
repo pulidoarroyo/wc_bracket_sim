@@ -20,6 +20,7 @@ export default async function Navbar() {
                     <>
                         <a href="/results" className="text-gray-400 hover:text-white transition-colors">Results</a>
                         <a href="/phases" className="text-gray-400 hover:text-white transition-colors">Phases</a>
+                        <a href="/matches" className="text-gray-400 hover:text-white transition-colors">Matches</a>
                     </>
                 )}
                 <span className="text-gray-500">{profile?.username}</span>

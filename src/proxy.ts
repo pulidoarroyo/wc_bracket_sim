@@ -24,7 +24,8 @@ export async function proxy(request: NextRequest) {
     const isAuthRoute = request.nextUrl.pathname.startsWith('/login') ||
         request.nextUrl.pathname.startsWith('/register')
     const isAdminRoute = request.nextUrl.pathname.startsWith('/results') ||
-        request.nextUrl.pathname.startsWith('/phases')
+        request.nextUrl.pathname.startsWith('/phases') ||
+        request.nextUrl.pathname.startsWith('/matches')
 
     if (!isAuth && !isAuthRoute) {
         return NextResponse.redirect(new URL('/login', request.url))

@@ -27,31 +27,38 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
 
     const locked = isLocked || saved
 
+    const formattedDate = match.match_date
+        ? new Date(match.match_date).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
+        : 'Date TBD'
+
     return (
-        <div className={`bg-gray-900 border rounded-2xl p-5 flex items-center gap-4 ${locked ? 'border-gray-800 opacity-75' : 'border-green-500/30'}`}>
-            <span className="flex-1 text-right text-sm font-semibold">{match.home_team.name}</span>
-            <div className="flex items-center gap-2">
-                <input
-                    type="number" min={0} value={home}
-                    disabled={locked}
-                    onChange={e => setHome(Number(e.target.value))}
-                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
-                />
-                <span className="text-gray-500 text-sm">vs</span>
-                <input
-                    type="number" min={0} value={away}
-                    disabled={locked}
-                    onChange={e => setAway(Number(e.target.value))}
-                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
-                />
+        <div className={`bg-gray-900 border rounded-2xl p-5 flex flex-col gap-3 ${locked ? 'border-gray-800 opacity-75' : 'border-green-500/30'}`}>
+            <span className="text-xs text-gray-500">{formattedDate}</span>
+            <div className="flex items-center gap-4">
+                <span className="flex-1 text-right text-sm font-semibold">{match.home_team.name}</span>
+                <div className="flex items-center gap-2">
+                    <input
+                        type="number" min={0} value={home}
+                        disabled={locked}
+                        onChange={e => setHome(Number(e.target.value))}
+                        className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+                    />
+                    <span className="text-gray-500 text-sm">vs</span>
+                    <input
+                        type="number" min={0} value={away}
+                        disabled={locked}
+                        onChange={e => setAway(Number(e.target.value))}
+                        className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+                    />
+                </div>
+                <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
+                {locked
+                    ? <span className="text-xs text-gray-500 w-20 text-center">🔒 Locked</span>
+                    : <button onClick={handleSubmit} className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20">
+                        Submit
+                    </button>
+                }
             </div>
-            <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
-            {locked
-                ? <span className="text-xs text-gray-500 w-20 text-center">🔒 Locked</span>
-                : <button onClick={handleSubmit} className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20">
-                    Submit
-                </button>
-            }
         </div>
     )
 }
