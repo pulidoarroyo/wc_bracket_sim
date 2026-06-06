@@ -69,7 +69,65 @@ export default function UserListClient({
                 </div>
             )}
 
-            <div className="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg shadow-black/20">
+            {/* Mobile: card list */}
+            <div className="sm:hidden flex flex-col gap-3">
+                {users.map(u => {
+                    const isSelf = u.id === currentUserId
+                    return (
+                        <div key={u.id} className="bg-gray-900 border border-gray-800 rounded-2xl p-4 flex flex-col gap-3">
+                            <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2.5">
+                                    <div className="w-9 h-9 rounded-full bg-gray-800 flex items-center justify-center font-bold text-blue-400 text-xs border border-gray-700 shrink-0">
+                                        {u.username ? u.username.substring(0, 2).toUpperCase() : '??'}
+                                    </div>
+                                    <div className="flex flex-col min-w-0">
+                                        <span className="font-semibold text-white text-sm truncate">{u.username || 'Sin nombre'}</span>
+                                        <span className="text-[10px] text-gray-500 truncate">{u.email}</span>
+                                    </div>
+                                </div>
+                                {isSelf && (
+                                    <span className="text-[10px] bg-blue-500/10 text-blue-400 px-2 py-1 rounded-lg border border-blue-500/20 font-medium shrink-0">
+                                        Tú
+                                    </span>
+                                )}
+                            </div>
+                            <div className="flex items-center justify-between gap-2 border-t border-gray-800 pt-3">
+                                {isSelf ? (
+                                    <span className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1.5 rounded-lg border border-blue-500/20 font-medium">
+                                        Administrador
+                                    </span>
+                                ) : (
+                                    <select
+                                        value={u.role || 'user'}
+                                        disabled={updatingId === u.id}
+                                        onChange={e => handleRoleChange(u.id, e.target.value)}
+                                        className="bg-gray-800 text-white rounded-lg px-2.5 py-1.5 text-xs outline-none border border-gray-700 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 transition-all cursor-pointer font-medium"
+                                    >
+                                        <option value="user">Usuario</option>
+                                        <option value="admin">Administrador</option>
+                                    </select>
+                                )}
+                                {!isSelf && (
+                                    <button
+                                        onClick={() => handleDelete(u.id)}
+                                        disabled={deletingId === u.id}
+                                        className={`text-xs font-semibold px-3 py-1.5 rounded-lg transition-all active:scale-95 ${
+                                            confirmDeleteId === u.id
+                                                ? 'bg-red-500 hover:bg-red-400 text-white'
+                                                : 'bg-gray-800 hover:bg-gray-700 text-red-400 border border-gray-700'
+                                        }`}
+                                    >
+                                        {deletingId === u.id ? 'Eliminando...' : confirmDeleteId === u.id ? '¿Confirmar?' : 'Eliminar'}
+                                    </button>
+                                )}
+                            </div>
+                        </div>
+                    )
+                })}
+            </div>
+
+            {/* Desktop: table */}
+            <div className="hidden sm:block bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden shadow-lg shadow-black/20">
                 <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                         <thead>

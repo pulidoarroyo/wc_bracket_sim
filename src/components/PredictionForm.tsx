@@ -88,53 +88,57 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
                 )}
             </div>
             
-            <div className="flex items-center gap-4">
-                <span className="flex-1 text-right text-sm font-semibold">{match.home_team.name}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex-1 flex items-center justify-between sm:justify-center gap-3 w-full">
+                    <span className="flex-1 text-right text-xs sm:text-sm font-semibold truncate max-w-[120px] sm:max-w-none">{match.home_team.name}</span>
+                    
+                    {match.result_locked ? (
+                        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                            <span className="w-10 h-10 flex items-center justify-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg text-base sm:text-lg">
+                                {Ha}
+                            </span>
+                            <span className="text-gray-500 text-xs font-semibold">vs</span>
+                            <span className="w-10 h-10 flex items-center justify-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg text-base sm:text-lg">
+                                {Aa}
+                            </span>
+                        </div>
+                    ) : (
+                        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+                            <input
+                                type="number" min={0} value={home}
+                                disabled={locked || showConfirm}
+                                onChange={e => setHome(Number(e.target.value))}
+                                className="w-10 h-10 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg text-base sm:text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
+                            />
+                            <span className="text-gray-500 text-xs font-semibold">vs</span>
+                            <input
+                                type="number" min={0} value={away}
+                                disabled={locked || showConfirm}
+                                onChange={e => setAway(Number(e.target.value))}
+                                className="w-10 h-10 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg text-base sm:text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
+                            />
+                        </div>
+                    )}
+                    
+                    <span className="flex-1 text-left text-xs sm:text-sm font-semibold truncate max-w-[120px] sm:max-w-none">{match.away_team.name}</span>
+                </div>
                 
-                {match.result_locked ? (
-                    <div className="flex items-center gap-2">
-                        <span className="w-12 text-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg py-2 text-lg">
-                            {Ha}
-                        </span>
-                        <span className="text-gray-500 text-sm">vs</span>
-                        <span className="w-12 text-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg py-2 text-lg">
-                            {Aa}
-                        </span>
-                    </div>
-                ) : (
-                    <div className="flex items-center gap-2">
-                        <input
-                            type="number" min={0} value={home}
-                            disabled={locked || showConfirm}
-                            onChange={e => setHome(Number(e.target.value))}
-                            className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
-                        />
-                        <span className="text-gray-500 text-sm">vs</span>
-                        <input
-                            type="number" min={0} value={away}
-                            disabled={locked || showConfirm}
-                            onChange={e => setAway(Number(e.target.value))}
-                            className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
-                        />
-                    </div>
-                )}
-                
-                <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
-                
-                {match.result_locked ? (
-                    <span className="text-xs text-gray-400 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">Finalizado</span>
-                ) : locked ? (
-                    <span className="text-xs text-gray-500 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
-                ) : showConfirm ? (
-                    <div className="w-20" />
-                ) : (
-                    <button 
-                        onClick={() => setShowConfirm(true)} 
-                        className="text-xs bg-blue-500 hover:bg-blue-400 text-black font-semibold px-3 py-2 rounded-lg transition-all hover:scale-[1.05] active:scale-[0.95] w-20 shadow-md shadow-blue-500/10 cursor-pointer"
-                    >
-                        Guardar
-                    </button>
-                )}
+                <div className="w-full sm:w-24 shrink-0 flex items-center justify-center">
+                    {match.result_locked ? (
+                        <span className="text-[10px] sm:text-xs text-gray-400 w-full text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-850">Finalizado</span>
+                    ) : locked ? (
+                        <span className="text-[10px] sm:text-xs text-gray-500 w-full text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
+                    ) : showConfirm ? (
+                        <div className="h-9 sm:w-24" />
+                    ) : (
+                        <button 
+                            onClick={() => setShowConfirm(true)} 
+                            className="text-xs bg-blue-500 hover:bg-blue-400 text-black font-semibold px-3 py-2 rounded-lg transition-all hover:scale-[1.02] active:scale-[0.98] w-full text-center shadow-md shadow-blue-500/10 cursor-pointer border-0 h-9"
+                        >
+                            Guardar
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Confirmation Banner */}
