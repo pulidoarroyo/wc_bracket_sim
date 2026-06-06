@@ -25,16 +25,16 @@ export default async function MatchesPage() {
         <div className="flex flex-col gap-10">
             <div className="flex flex-col gap-6">
                 <div>
-                    <h1 className="text-3xl font-bold">Create match</h1>
-                    <p className="text-gray-400 mt-1">Add knockout stage matches manually.</p>
+                    <h1 className="text-3xl font-bold">Crear partido</h1>
+                    <p className="text-gray-400 mt-1">Agrega partidos de la fase eliminatoria manualmente.</p>
                 </div>
                 <MatchCreateForm teams={teams ?? []} phases={phases ?? []} />
             </div>
 
             <div className="flex flex-col gap-4">
                 <div>
-                    <h2 className="text-2xl font-bold">Edit match dates</h2>
-                    <p className="text-gray-400 mt-1">Set dates and venues for all matches.</p>
+                    <h2 className="text-2xl font-bold">Editar fechas de partidos</h2>
+                    <p className="text-gray-400 mt-1">Configura fechas y sedes para todos los partidos.</p>
                 </div>
                 <div className="flex flex-col gap-3">
                     <MatchList initialMatches={matches ?? []} />

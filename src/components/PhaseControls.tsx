@@ -10,12 +10,12 @@ const statusStyles: Record<string, string> = {
 }
 
 const phaseLabels: Record<string, string> = {
-    group_stage: 'Group Stage',
-    round_of_32: 'Round of 32',
-    round_of_16: 'Round of 16',
-    quarter_finals: 'Quarter Finals',
-    semi_finals: 'Semi Finals',
-    third_place: 'Third Place',
+    group_stage: 'Fase de grupos',
+    round_of_32: 'Ronda de 32',
+    round_of_16: 'Octavos de final',
+    quarter_finals: 'Cuartos de final',
+    semi_finals: 'Semifinales',
+    third_place: 'Tercer lugar',
     final: 'Final',
 }
 
@@ -40,21 +40,21 @@ export default function PhaseControls({ phase }: { phase: any }) {
                     disabled={status === 'open'}
                     className="text-xs px-3 py-2 rounded-lg bg-green-500/20 text-green-400 hover:bg-green-500/30 disabled:opacity-30 transition-colors"
                 >
-                    Open
+                    Abrir
                 </button>
                 <button
                     onClick={() => updateStatus('closed')}
                     disabled={status === 'closed'}
                     className="text-xs px-3 py-2 rounded-lg bg-yellow-500/20 text-yellow-400 hover:bg-yellow-500/30 disabled:opacity-30 transition-colors"
                 >
-                    Close
+                    Cerrar
                 </button>
                 <button
                     onClick={() => updateStatus('locked')}
                     disabled={status === 'locked'}
                     className="text-xs px-3 py-2 rounded-lg bg-gray-700 text-gray-400 hover:bg-gray-600 disabled:opacity-30 transition-colors"
                 >
-                    Lock
+                    Bloquear
                 </button>
             </div>
         </div>

@@ -12,8 +12,8 @@ export default async function PhasesPage() {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h1 className="text-3xl font-bold">Manage phases</h1>
-                <p className="text-gray-400 mt-1">Control which phases are open for predictions.</p>
+                <h1 className="text-3xl font-bold">Administrar fases</h1>
+                <p className="text-gray-400 mt-1">Controla qué fases están abiertas para predicciones.</p>
             </div>
             <div className="flex flex-col gap-3">
                 {phases?.map(phase => (

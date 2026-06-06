@@ -7,19 +7,19 @@ export default async function LeaderboardPage() {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h1 className="text-3xl font-bold">Leaderboard 🏅</h1>
-                <p className="text-gray-400 mt-1">Updated after every result.</p>
+                <h1 className="text-3xl font-bold">Clasificación 🏅</h1>
+                <p className="text-gray-400 mt-1">Actualizado después de cada resultado.</p>
             </div>
             <div className="bg-gray-900 rounded-2xl border border-gray-800 overflow-hidden">
                 <table className="w-full text-sm">
                     <thead>
                         <tr className="border-b border-gray-800 text-gray-400">
                             <th className="text-left px-6 py-4">#</th>
-                            <th className="text-left px-6 py-4">Player</th>
-                            <th className="text-right px-6 py-4">Points</th>
-                            <th className="text-right px-6 py-4">Exact</th>
-                            <th className="text-right px-6 py-4">Winner</th>
-                            <th className="text-right px-6 py-4">Played</th>
+                            <th className="text-left px-6 py-4">Jugador</th>
+                            <th className="text-right px-6 py-4">Puntos</th>
+                            <th className="text-right px-6 py-4">Exactos</th>
+                            <th className="text-right px-6 py-4">Ganador</th>
+                            <th className="text-right px-6 py-4">Jugados</th>
                         </tr>
                     </thead>
                     <tbody>

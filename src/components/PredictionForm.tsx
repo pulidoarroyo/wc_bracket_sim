@@ -29,7 +29,7 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
 
     const formattedDate = match.match_date
         ? new Date(match.match_date).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
-        : 'Date TBD'
+        : 'Fecha por definir'
 
     return (
         <div className={`bg-gray-900 border rounded-2xl p-5 flex flex-col gap-3 ${locked ? 'border-gray-800 opacity-75' : 'border-green-500/30'}`}>
@@ -53,9 +53,9 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
                 </div>
                 <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
                 {locked
-                    ? <span className="text-xs text-gray-500 w-20 text-center">🔒 Locked</span>
+                    ? <span className="text-xs text-gray-500 w-20 text-center">🔒 Bloqueado</span>
                     : <button onClick={handleSubmit} className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20">
-                        Submit
+                        Guardar
                     </button>
                 }
             </div>

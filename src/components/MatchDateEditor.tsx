@@ -41,7 +41,7 @@ export default function MatchDateEditor({ match, onDelete }: { match: any, onDel
             />
             <input
                 type="text"
-                placeholder="Venue"
+                placeholder="Sede"
                 value={venue}
                 onChange={e => setVenue(e.target.value)}
                 className="bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500 w-48"
@@ -50,13 +50,13 @@ export default function MatchDateEditor({ match, onDelete }: { match: any, onDel
                 onClick={handleSave}
                 className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors"
             >
-                {saved ? '✓ Saved' : 'Save'}
+                {saved ? '✓ Guardado' : 'Guardar'}
             </button>
             <button
                 onClick={handleDelete}
                 className={`text-xs font-semibold px-3 py-2 rounded-lg transition-colors ${confirming ? 'bg-red-500 hover:bg-red-400 text-white' : 'bg-gray-800 hover:bg-gray-700 text-red-400'}`}
             >
-                {confirming ? 'Confirm?' : 'Delete'}
+                {confirming ? '¿Confirmar?' : 'Eliminar'}
             </button>
         </div>
     )

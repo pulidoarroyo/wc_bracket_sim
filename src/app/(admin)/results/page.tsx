@@ -16,12 +16,12 @@ export default async function ResultsPage() {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <h1 className="text-3xl font-bold">Enter results</h1>
-                <p className="text-gray-400 mt-1">Scores are calculated automatically after submission.</p>
+                <h1 className="text-3xl font-bold">Ingresar resultados</h1>
+                <p className="text-gray-400 mt-1">Los puntajes se calculan automáticamente al guardar.</p>
             </div>
             <div className="flex flex-col gap-3">
                 {matches?.length === 0 && (
-                    <p className="text-gray-500 text-sm">No pending matches.</p>
+                    <p className="text-gray-500 text-sm">No hay partidos pendientes.</p>
                 )}
                 {matches?.map(match => (
                     <ResultForm key={match.id} match={match} />

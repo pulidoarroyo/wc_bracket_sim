@@ -13,7 +13,8 @@ export default function RegisterPage() {
     const [showPassword, setShowPassword] = useState(false) // New state for password visibility
     const [error, setError] = useState('')
 
-    async function handleRegister() {
+    async function handleRegister(e?: React.FormEvent) {
+        e?.preventDefault()
         const { error } = await supabase.auth.signUp({
             email,
             password,
@@ -25,26 +26,26 @@ export default function RegisterPage() {
 
     return (
         <div className="min-h-screen flex items-center justify-center px-4">
-            <div className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 flex flex-col gap-5">
+            <form onSubmit={handleRegister} className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 flex flex-col gap-5">
                 <h1 className="text-2xl font-bold text-center">Quiniela 2026 🏆</h1>
                 <input
                     type="text"
-                    placeholder="Username"
+                    placeholder="Usuario"
                     value={username}
                     onChange={e => setUsername(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <input
                     type="email"
-                    placeholder="Email"
+                    placeholder="Correo electrónico"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
                 />
                 <div className="relative">
                     <input
-                        type={showPassword ? 'text' : 'password'} // Dynamic type
-                        placeholder="Password"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Contraseña"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
                         className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500 w-full pr-10"
@@ -73,15 +74,15 @@ export default function RegisterPage() {
                 </div>
                 {error && <p className="text-red-400 text-sm">{error}</p>}
                 <button
-                    onClick={handleRegister}
+                    type="submit"
                     className="bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg py-3 transition-colors"
                 >
-                    Register
+                    Registrarse
                 </button>
                 <a href="/login" className="text-sm text-center text-gray-400 hover:text-white transition-colors">
-                    Already have an account? Login
+                    ¿Ya tienes cuenta? Inicia sesión
                 </a>
-            </div>
+            </form>
         </div>
     )
 }

@@ -24,7 +24,7 @@ export default function ResultForm({ match }: { match: any }) {
     if (done) return (
         <div className="bg-gray-900 border border-green-500/30 rounded-2xl p-5 flex items-center justify-between">
             <span className="text-sm font-semibold">{match.home_team.name} {home} - {away} {match.away_team.name}</span>
-            <span className="text-xs text-green-400">✓ Saved</span>
+            <span className="text-xs text-green-400">✓ Guardado</span>
         </div>
     )
 
@@ -50,7 +50,7 @@ export default function ResultForm({ match }: { match: any }) {
                 disabled={loading}
                 className="text-xs bg-green-500 hover:bg-green-400 disabled:opacity-50 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20"
             >
-                {loading ? '...' : 'Submit'}
+                {loading ? '...' : 'Guardar'}
             </button>
         </div>
     )

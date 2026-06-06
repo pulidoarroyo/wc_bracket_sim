@@ -16,10 +16,10 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
     async function handleSubmit() {
         setError('')
         if (!homeTeamId || !awayTeamId || !phase) {
-            return setError('Please fill in all required fields.')
+            return setError('Por favor completa todos los campos requeridos.')
         }
         if (homeTeamId === awayTeamId) {
-            return setError('Home and away teams must be different.')
+            return setError('El equipo local y visitante deben ser distintos.')
         }
 
         const { error } = await supabase.from('matches').insert({
@@ -44,13 +44,13 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
     return (
         <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 flex flex-col gap-5 max-w-lg">
             <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400">Phase *</label>
+                <label className="text-sm text-gray-400">Fase *</label>
                 <select
                     value={phase}
                     onChange={e => setPhase(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
                 >
-                    <option value="">Select phase</option>
+                    <option value="">Seleccionar fase</option>
                     {knockoutPhases.map(p => (
                         <option key={p.id} value={p.phase}>
                             {p.phase.replace(/_/g, ' ')}
@@ -60,13 +60,13 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             </div>
 
             <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400">Home team *</label>
+                <label className="text-sm text-gray-400">Equipo local *</label>
                 <select
                     value={homeTeamId}
                     onChange={e => setHomeTeamId(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
                 >
-                    <option value="">Select team</option>
+                    <option value="">Seleccionar equipo</option>
                     {teams.map(t => (
                         <option key={t.id} value={t.id}>{t.name} ({t.code})</option>
                     ))}
@@ -74,13 +74,13 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             </div>
 
             <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400">Away team *</label>
+                <label className="text-sm text-gray-400">Equipo visitante *</label>
                 <select
                     value={awayTeamId}
                     onChange={e => setAwayTeamId(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
                 >
-                    <option value="">Select team</option>
+                    <option value="">Seleccionar equipo</option>
                     {teams.map(t => (
                         <option key={t.id} value={t.id}>{t.name} ({t.code})</option>
                     ))}
@@ -88,7 +88,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             </div>
 
             <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400">Match date</label>
+                <label className="text-sm text-gray-400">Fecha del partido</label>
                 <input
                     type="datetime-local"
                     value={matchDate}
@@ -98,10 +98,10 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             </div>
 
             <div className="flex flex-col gap-2">
-                <label className="text-sm text-gray-400">Venue</label>
+                <label className="text-sm text-gray-400">Sede</label>
                 <input
                     type="text"
-                    placeholder="e.g. MetLife Stadium"
+                    placeholder="ej. MetLife Stadium"
                     value={venue}
                     onChange={e => setVenue(e.target.value)}
                     className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
@@ -109,13 +109,13 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             </div>
 
             {error && <p className="text-red-400 text-sm">{error}</p>}
-            {saved && <p className="text-green-400 text-sm">✓ Match created successfully.</p>}
+            {saved && <p className="text-green-400 text-sm">✓ Partido creado con éxito.</p>}
 
             <button
                 onClick={handleSubmit}
                 className="bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg py-3 transition-colors"
             >
-                Create match
+                Crear partido
             </button>
         </div>
     )
