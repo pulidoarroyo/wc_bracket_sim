@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import LogoutButton from './LogoutButton'
+import ThemeToggle from './ThemeToggle'
 
 interface NavbarClientProps {
     username: string | null
@@ -40,6 +41,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                         </a>
                     ))}
                     <span className="text-gray-500">{username}</span>
+                    <ThemeToggle />
                     <LogoutButton />
                 </div>
 
@@ -78,7 +80,10 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                     ))}
                     <div className="flex items-center justify-between pt-2 border-t border-gray-800">
                         <span className="text-gray-500">{username}</span>
-                        <LogoutButton />
+                        <div className="flex items-center gap-3">
+                            <ThemeToggle />
+                            <LogoutButton />
+                        </div>
                     </div>
                 </div>
             )}

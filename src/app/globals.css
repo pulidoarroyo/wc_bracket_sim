@@ -1,5 +1,65 @@
 @import "tailwindcss";
 
+@theme {
+  --color-gray-950: #030712;
+  --color-gray-900: #111827;
+  --color-gray-800: #1f2937;
+  --color-gray-700: #374151;
+  --color-gray-600: #4b5563;
+  --color-gray-500: #6b7280;
+  --color-gray-400: #9ca3af;
+  --color-gray-300: #d1d5db;
+  --color-gray-200: #e5e7eb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-50: #f9fafb;
+}
+
+html.light {
+  --color-gray-950: #f3f4f6; /* Very light grey */
+  --color-gray-900: #ffffff; /* White card background */
+  --color-gray-850: #f9fafb; /* Light grey for avatars/inner blocks */
+  --color-gray-800: #e5e7eb; /* Light border */
+  --color-gray-750: #f3f4f6; /* Light input hover */
+  --color-gray-700: #d1d5db; /* Focused border */
+  --color-gray-650: #e5e7eb;
+  --color-gray-600: #4b5563;
+  --color-gray-500: #6b7280;
+  --color-gray-400: #4b5563; /* Readable text secondary */
+  --color-gray-300: #374151; /* Readable text */
+  --color-gray-200: #1f2937; /* Dark body text */
+  --color-gray-100: #111827;
+  --color-gray-5: #0f172a;
+}
+
+/* Light mode specific classes for text-white overrides */
+html.light .text-white,
+html.light .group-hover\:text-white:hover {
+  color: #111827;
+}
+
+/* Ensure text on primary/status colored badges and buttons remains white/light */
+html.light .bg-blue-500 .text-white,
+html.light .bg-red-500 .text-white,
+html.light .bg-green-500 .text-white,
+html.light .bg-yellow-500 .text-white,
+html.light .bg-blue-500.text-white,
+html.light .bg-red-500.text-white,
+html.light .bg-green-500.text-white,
+html.light .bg-yellow-500.text-white,
+html.light .bg-blue-600.text-white,
+html.light .bg-red-600.text-white,
+html.light .bg-green-600.text-white,
+html.light .bg-yellow-600.text-white {
+  color: #ffffff;
+}
+
+/* Prevent inputs from having white text on white bg in light mode */
+html.light input,
+html.light select,
+html.light textarea {
+  color: #111827;
+}
+
 * {
   box-sizing: border-box;
 }
