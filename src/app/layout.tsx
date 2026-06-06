@@ -5,7 +5,7 @@ import './globals.css'
 const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Quiniela Mundial FIFA 2026',
+  title: 'Quiniela NAVIORCA',
   description: 'Plataforma de predicciones deportivas',
 }
 

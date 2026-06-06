@@ -26,8 +26,10 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
     return (
         <nav className="bg-gray-900 border-b border-gray-800 px-6 py-4">
             <div className="flex items-center justify-between">
-                <a href="/dashboard" className="text-green-400 font-bold text-lg">
-                    Quiniela 2026 🏆
+                <a href="/dashboard" className="text-blue-400 font-bold text-lg flex items-center gap-2.5 hover:text-blue-300 transition-colors">
+                    <img src="/favicon.ico" alt="Logo" className="w-7 h-7 object-contain" />
+                    <span className="hidden xs:inline">Quiniela NAVIORCA Mundial 2026</span>
+                    <span className="xs:hidden">Quiniela NAVIORCA</span>
                 </a>
 
                 {/* Desktop links */}

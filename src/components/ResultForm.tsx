@@ -22,9 +22,9 @@ export default function ResultForm({ match }: { match: any }) {
     }
 
     if (done) return (
-        <div className="bg-gray-900 border border-green-500/30 rounded-2xl p-5 flex items-center justify-between">
+        <div className="bg-gray-900 border border-blue-500/30 rounded-2xl p-5 flex items-center justify-between">
             <span className="text-sm font-semibold">{match.home_team.name} {home} - {away} {match.away_team.name}</span>
-            <span className="text-xs text-green-400">✓ Guardado</span>
+            <span className="text-xs text-blue-400">✓ Guardado</span>
         </div>
     )
 
@@ -35,20 +35,20 @@ export default function ResultForm({ match }: { match: any }) {
                 <input
                     type="number" min={0} value={home}
                     onChange={e => setHome(Number(e.target.value))}
-                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <span className="text-gray-500 text-sm">vs</span>
                 <input
                     type="number" min={0} value={away}
                     onChange={e => setAway(Number(e.target.value))}
-                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500"
                 />
             </div>
             <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
             <button
                 onClick={handleSubmit}
                 disabled={loading}
-                className="text-xs bg-green-500 hover:bg-green-400 disabled:opacity-50 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20"
+                className="text-xs bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20"
             >
                 {loading ? '...' : 'Guardar'}
             </button>

@@ -39,7 +39,7 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <a href="/dashboard" className="text-sm text-green-400 hover:text-green-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
+                <a href="/dashboard" className="text-sm text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
                     ← Volver al inicio
                 </a>
                 <h1 className="text-3xl font-bold">{phaseLabels[phaseSlug]}</h1>
@@ -53,7 +53,7 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
                         <span className="text-5xl">🏗️</span>
                         <p className="text-lg font-semibold text-gray-300">Aún no hay partidos en esta fase</p>
                         <p className="text-sm text-gray-500 max-w-xs">El administrador todavía no ha cargado los partidos. Vuelve más tarde.</p>
-                        <a href="/dashboard" className="mt-2 text-sm text-green-400 hover:text-green-300 transition-colors">
+                        <a href="/dashboard" className="mt-2 text-sm text-blue-400 hover:text-blue-300 transition-colors">
                             ← Volver al inicio
                         </a>
                     </div>

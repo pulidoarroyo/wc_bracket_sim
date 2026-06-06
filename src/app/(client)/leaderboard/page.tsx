@@ -8,7 +8,7 @@ export default async function LeaderboardPage() {
     return (
         <div className="flex flex-col gap-6">
             <div>
-                <a href="/dashboard" className="text-sm text-green-400 hover:text-green-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
+                <a href="/dashboard" className="text-sm text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
                     ← Volver al inicio
                 </a>
                 <h1 className="text-3xl font-bold">Clasificación 🏅</h1>
@@ -32,16 +32,16 @@ export default async function LeaderboardPage() {
                             return (
                                 <tr
                                     key={entry.user_id}
-                                    className={`border-b border-gray-800 last:border-0 hover:bg-gray-800/30 transition-colors ${i === 0 ? 'text-yellow-400' : ''} ${isCurrentUser ? 'bg-green-500/5 text-green-300 font-semibold border-l-2 border-l-green-500' : ''}`}
+                                    className={`border-b border-gray-800 last:border-0 hover:bg-gray-800/30 transition-colors ${i === 0 ? 'text-yellow-400' : ''} ${isCurrentUser ? 'bg-blue-500/5 text-blue-300 font-semibold border-l-2 border-l-blue-500' : ''}`}
                                 >
                                     <td className="px-6 py-4 font-bold">{entry.position}</td>
                                     <td className="px-6 py-4 font-semibold">
-                                        {entry.username} {isCurrentUser && <span className="text-[10px] text-green-400 font-normal bg-green-500/15 px-2 py-0.5 rounded-full ml-1.5 align-middle border border-green-500/20">(Tú)</span>}
+                                        {entry.username} {isCurrentUser && <span className="text-[10px] text-blue-400 font-normal bg-blue-500/15 px-2 py-0.5 rounded-full ml-1.5 align-middle border border-blue-500/20">(Tú)</span>}
                                     </td>
                                     <td className="px-6 py-4 text-right font-bold">{entry.total_points}</td>
-                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-green-400/80' : 'text-gray-400'}`}>{entry.exact_scores}</td>
-                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-green-400/80' : 'text-gray-400'}`}>{entry.correct_winners}</td>
-                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-green-400/80' : 'text-gray-400'}`}>{entry.matches_scored}</td>
+                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-blue-400/80' : 'text-gray-400'}`}>{entry.exact_scores}</td>
+                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-blue-400/80' : 'text-gray-400'}`}>{entry.correct_winners}</td>
+                                    <td className={`px-6 py-4 text-right ${isCurrentUser ? 'text-blue-400/80' : 'text-gray-400'}`}>{entry.matches_scored}</td>
                                 </tr>
                             )
                         })}

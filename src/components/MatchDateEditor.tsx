@@ -37,18 +37,18 @@ export default function MatchDateEditor({ match, onDelete }: { match: any, onDel
                 type="datetime-local"
                 value={matchDate}
                 onChange={e => setMatchDate(e.target.value)}
-                className="bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                className="bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
             />
             <input
                 type="text"
                 placeholder="Sede"
                 value={venue}
                 onChange={e => setVenue(e.target.value)}
-                className="bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-green-500 w-48"
+                className="bg-gray-800 rounded-lg px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 w-48"
             />
             <button
                 onClick={handleSave}
-                className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors"
+                className="text-xs bg-blue-500 hover:bg-blue-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors"
             >
                 {saved ? '✓ Guardado' : 'Guardar'}
             </button>

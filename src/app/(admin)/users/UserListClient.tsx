@@ -90,7 +90,7 @@ export default function UserListClient({
                                     >
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-2.5">
-                                                <div className="w-8 h-8 rounded-full bg-gray-850 flex items-center justify-center font-bold text-green-400 text-xs border border-gray-700">
+                                                <div className="w-8 h-8 rounded-full bg-gray-850 flex items-center justify-center font-bold text-blue-400 text-xs border border-gray-700">
                                                     {u.username ? u.username.substring(0, 2).toUpperCase() : '??'}
                                                 </div>
                                                 <div className="flex flex-col">
@@ -106,7 +106,7 @@ export default function UserListClient({
                                         <td className="px-6 py-4 text-gray-300 font-medium">{u.email}</td>
                                         <td className="px-6 py-4">
                                             {isSelf ? (
-                                                <span className="text-xs bg-green-500/10 text-green-400 px-2.5 py-1 rounded-lg border border-green-500/20 font-medium">
+                                                <span className="text-xs bg-blue-500/10 text-blue-400 px-2.5 py-1 rounded-lg border border-blue-500/20 font-medium">
                                                     Administrador (Tú)
                                                 </span>
                                             ) : (
@@ -114,7 +114,7 @@ export default function UserListClient({
                                                     value={u.role || 'user'}
                                                     disabled={updatingId === u.id}
                                                     onChange={e => handleRoleChange(u.id, e.target.value)}
-                                                    className="bg-gray-800 hover:bg-gray-750 text-white rounded-lg px-2.5 py-1.5 text-xs outline-none border border-gray-750 focus:ring-1 focus:ring-green-500 disabled:opacity-50 transition-all cursor-pointer font-medium"
+                                                    className="bg-gray-800 hover:bg-gray-750 text-white rounded-lg px-2.5 py-1.5 text-xs outline-none border border-gray-750 focus:ring-1 focus:ring-blue-500 disabled:opacity-50 transition-all cursor-pointer font-medium"
                                                 >
                                                     <option value="user">Usuario</option>
                                                     <option value="admin">Administrador</option>

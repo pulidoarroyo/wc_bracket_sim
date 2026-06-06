@@ -12,7 +12,7 @@ const phaseLabels: Record<string, string> = {
 }
 
 const statusStyles: Record<string, string> = {
-    open: 'bg-green-500/20 text-green-400 border border-green-500/30',
+    open: 'bg-blue-500/20 text-blue-400 border border-blue-500/30',
     closed: 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30',
     locked: 'bg-gray-700 text-gray-400 border border-gray-600',
 }
@@ -53,7 +53,7 @@ export default async function DashboardPage() {
                     </div>
                     <div className="w-px h-10 bg-gray-800 hidden md:block" />
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-green-500/10 rounded-xl text-green-400 text-xl leading-none">⚡</div>
+                        <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 text-xl leading-none">⚡</div>
                         <div className="flex flex-col">
                             <span className="text-xs text-gray-400 font-medium">Puntos totales</span>
                             <span className="text-2xl font-black text-white">{myStats.total_points}</span>
@@ -61,18 +61,18 @@ export default async function DashboardPage() {
                     </div>
                     <div className="w-px h-10 bg-gray-800 hidden md:block" />
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400 text-xl leading-none">🎯</div>
+                        <div className="p-2.5 bg-sky-500/10 rounded-xl text-sky-400 text-xl leading-none">🎯</div>
                         <div className="flex flex-col">
                             <span className="text-xs text-gray-400 font-medium">Exactos</span>
-                            <span className="text-2xl font-black text-emerald-400">{myStats.exact_scores}</span>
+                            <span className="text-2xl font-black text-sky-400">{myStats.exact_scores}</span>
                         </div>
                     </div>
                     <div className="w-px h-10 bg-gray-800 hidden md:block" />
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 text-xl leading-none">🙌</div>
+                        <div className="p-2.5 bg-slate-500/10 rounded-xl text-slate-400 text-xl leading-none">🙌</div>
                         <div className="flex flex-col">
                             <span className="text-xs text-gray-400 font-medium">Ganador</span>
-                            <span className="text-2xl font-black text-blue-400">{myStats.correct_winners}</span>
+                            <span className="text-2xl font-black text-slate-400">{myStats.correct_winners}</span>
                         </div>
                     </div>
                     <div className="w-px h-10 bg-gray-800 hidden md:block" />
@@ -88,7 +88,7 @@ export default async function DashboardPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {phases?.map(phase => (
-                    <div key={phase.id} className="bg-gray-900 rounded-2xl p-6 flex flex-col gap-4 border border-gray-800 hover:border-gray-700 hover:shadow-xl hover:shadow-green-500/[0.02] transition-all duration-300 group">
+                    <div key={phase.id} className="bg-gray-900 rounded-2xl p-6 flex flex-col gap-4 border border-gray-800 hover:border-gray-700 hover:shadow-xl hover:shadow-blue-500/[0.02] transition-all duration-300 group">
                         <div className="flex items-center justify-between">
                             <h2 className="font-semibold text-gray-200 group-hover:text-white transition-colors">{phaseLabels[phase.phase]}</h2>
                             <span className={`text-xs px-2 py-1 rounded-full ${statusStyles[phase.status]}`}>
@@ -97,7 +97,7 @@ export default async function DashboardPage() {
                         </div>
                         {phase.status === 'open' && (
                             <a href={`/predictions/${phase.phase}`}
-                                className="bg-green-500 hover:bg-green-400 text-black text-sm font-semibold text-center rounded-lg py-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-green-500/10">
+                                className="bg-blue-500 hover:bg-blue-400 text-black text-sm font-semibold text-center rounded-lg py-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-blue-500/10">
                                 Hacer predicciones
                             </a>
                         )}

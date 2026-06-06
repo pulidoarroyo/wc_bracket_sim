@@ -48,7 +48,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
                 <select
                     value={phase}
                     onChange={e => setPhase(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="">Seleccionar fase</option>
                     {knockoutPhases.map(p => (
@@ -64,7 +64,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
                 <select
                     value={homeTeamId}
                     onChange={e => setHomeTeamId(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="">Seleccionar equipo</option>
                     {teams.map(t => (
@@ -78,7 +78,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
                 <select
                     value={awayTeamId}
                     onChange={e => setAwayTeamId(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="">Seleccionar equipo</option>
                     {teams.map(t => (
@@ -93,7 +93,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
                     type="datetime-local"
                     value={matchDate}
                     onChange={e => setMatchDate(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 />
             </div>
 
@@ -104,16 +104,16 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
                     placeholder="ej. MetLife Stadium"
                     value={venue}
                     onChange={e => setVenue(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 />
             </div>
 
             {error && <p className="text-red-400 text-sm">{error}</p>}
-            {saved && <p className="text-green-400 text-sm">✓ Partido creado con éxito.</p>}
+            {saved && <p className="text-blue-400 text-sm">✓ Partido creado con éxito.</p>}
 
             <button
                 onClick={handleSubmit}
-                className="bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg py-3 transition-colors"
+                className="bg-blue-500 hover:bg-blue-400 text-black font-semibold rounded-lg py-3 transition-colors"
             >
                 Crear partido
             </button>

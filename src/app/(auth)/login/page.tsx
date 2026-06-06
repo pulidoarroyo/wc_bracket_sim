@@ -22,13 +22,16 @@ export default function LoginPage() {
     return (
         <div className="min-h-screen flex items-center justify-center px-4">
             <form onSubmit={handleLogin} className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 flex flex-col gap-5">
-                <h1 className="text-2xl font-bold text-center">Quiniela 2026 🏆</h1>
+                <div className="flex flex-col items-center gap-3 mb-2">
+                    <img src="/favicon.ico" alt="Logo" className="w-16 h-16 object-contain animate-bounce-short" />
+                    <h1 className="text-2xl font-bold text-center">Quiniela NAVIORCA Mundial 2026</h1>
+                </div>
                 <input
                     type="email"
                     placeholder="Correo electrónico"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500"
+                    className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 <div className="relative">
                     <input
@@ -36,7 +39,7 @@ export default function LoginPage() {
                         placeholder="Contraseña"
                         value={password}
                         onChange={e => setPassword(e.target.value)}
-                        className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-green-500 w-full pr-10"
+                        className="bg-gray-800 rounded-lg px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 w-full pr-10"
                     />
                     <button
                         type="button"
@@ -63,7 +66,7 @@ export default function LoginPage() {
                 {error && <p className="text-red-400 text-sm">{error}</p>}
                 <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg py-3 transition-colors"
+                    className="bg-blue-500 hover:bg-blue-400 text-black font-semibold rounded-lg py-3 transition-colors"
                 >
                     Iniciar sesión
                 </button>
