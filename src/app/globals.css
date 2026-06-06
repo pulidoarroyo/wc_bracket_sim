@@ -95,3 +95,78 @@ button, a, input, select {
 .animate-bounce-short {
   animation: bounce-short 2s ease-in-out infinite;
 }
+
+/* Driver.js custom premium styling */
+.driver-popover {
+  background-color: var(--color-gray-900) !important;
+  color: var(--color-gray-200) !important;
+  border: 1px solid var(--color-gray-800) !important;
+  border-radius: 1rem !important;
+  padding: 1.25rem !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3) !important;
+  font-family: inherit !important;
+}
+
+.driver-popover-title {
+  color: var(--color-white) !important;
+  font-weight: 800 !important;
+  font-size: 1.1rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.driver-popover-description {
+  color: var(--color-gray-400) !important;
+  font-size: 0.875rem !important;
+  line-height: 1.45 !important;
+}
+
+.driver-popover-footer {
+  margin-top: 1.25rem !important;
+  display: flex !important;
+  justify-content: flex-end !important;
+  gap: 0.5rem !important;
+}
+
+.driver-popover-btn {
+  background-color: var(--color-gray-800) !important;
+  color: var(--color-white) !important;
+  border: 1px solid var(--color-gray-700) !important;
+  border-radius: 0.5rem !important;
+  padding: 0.4rem 0.8rem !important;
+  font-size: 0.75rem !important;
+  font-weight: 600 !important;
+  text-shadow: none !important;
+  transition: all 0.2s !important;
+  cursor: pointer !important;
+}
+
+.driver-popover-btn:hover {
+  background-color: var(--color-gray-700) !important;
+}
+
+.driver-popover-next-btn {
+  background-color: var(--color-blue-500) !important;
+  color: #000000 !important;
+  border: none !important;
+}
+
+.driver-popover-next-btn:hover {
+  background-color: var(--color-blue-400) !important;
+}
+
+.driver-popover-close-btn {
+  color: var(--color-gray-500) !important;
+}
+
+.driver-popover-close-btn:hover {
+  color: var(--color-white) !important;
+}
+
+.driver-popover-progress-text {
+  color: var(--color-gray-500) !important;
+  font-size: 0.75rem !important;
+}
+
+.driver-popover-arrow {
+  border-color: var(--color-gray-900) !important;
+}

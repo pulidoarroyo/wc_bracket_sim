@@ -11,6 +11,14 @@ interface NavbarClientProps {
 
 export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
     const [menuOpen, setMenuOpen] = useState(false)
+    const startTour = () => {
+        localStorage.setItem('run_dashboard_tour', 'true')
+        if (window.location.pathname !== '/dashboard') {
+            window.location.href = '/dashboard'
+        } else {
+            window.dispatchEvent(new Event('trigger-dashboard-tour'))
+        }
+    }
 
     const links = [
         { href: '/leaderboard', label: 'Clasificación' },
@@ -36,11 +44,23 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                 {/* Desktop links */}
                 <div className="hidden sm:flex items-center gap-6 text-sm">
                     {links.map(link => (
-                        <a key={link.href} href={link.href} className="text-gray-400 hover:text-white transition-colors">
+                        <a 
+                            key={link.href} 
+                            href={link.href} 
+                            id={link.href === '/leaderboard' ? 'nav-leaderboard' : undefined}
+                            className="text-gray-400 hover:text-white transition-colors"
+                        >
                             {link.label}
                         </a>
                     ))}
                     <span className="text-gray-500">{username}</span>
+                    <button 
+                        onClick={startTour}
+                        className="text-gray-400 hover:text-white transition-colors text-sm focus:outline-none flex items-center gap-1 cursor-pointer bg-transparent border-0 py-1"
+                        title="Ver tutorial guiado"
+                    >
+                        <span>Ayuda ❓</span>
+                    </button>
                     <ThemeToggle />
                     <LogoutButton />
                 </div>
@@ -72,6 +92,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                         <a
                             key={link.href}
                             href={link.href}
+                            id={link.href === '/leaderboard' ? 'nav-leaderboard-mobile' : undefined}
                             className="text-gray-400 hover:text-white transition-colors py-1"
                             onClick={() => setMenuOpen(false)}
                         >
@@ -81,6 +102,12 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                     <div className="flex items-center justify-between pt-2 border-t border-gray-800">
                         <span className="text-gray-500">{username}</span>
                         <div className="flex items-center gap-3">
+                            <button 
+                                onClick={startTour}
+                                className="text-gray-400 hover:text-white transition-colors text-sm focus:outline-none cursor-pointer bg-transparent border-0"
+                            >
+                                Ayuda ❓
+                            </button>
                             <ThemeToggle />
                             <LogoutButton />
                         </div>

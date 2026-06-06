@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import DashboardTour from '@/components/DashboardTour'
 
 const phaseLabels: Record<string, string> = {
     group_stage: 'Fase de grupos',
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
 
             {/* Score summary card */}
             {myStats && (
-                <div className="bg-gray-900 border border-gray-800/80 rounded-2xl p-6 grid grid-cols-2 md:flex md:items-center md:justify-between gap-6 shadow-md shadow-black/20">
+                <div id="dashboard-stats" className="bg-gray-900 border border-gray-800/80 rounded-2xl p-6 grid grid-cols-2 md:flex md:items-center md:justify-between gap-6 shadow-md shadow-black/20">
                     <div className="flex items-center gap-3">
                         <div className="p-2.5 bg-yellow-500/10 rounded-xl text-yellow-400 text-xl leading-none">🏅</div>
                         <div className="flex flex-col">
@@ -86,12 +87,15 @@ export default async function DashboardPage() {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {phases?.map(phase => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" id="phase-cards-container">
+                {phases?.map((phase, idx) => (
                     <div key={phase.id} className="bg-gray-900 rounded-2xl p-6 flex flex-col gap-4 border border-gray-800 hover:border-gray-700 hover:shadow-xl hover:shadow-blue-500/[0.02] transition-all duration-300 group">
                         <div className="flex items-center justify-between">
                             <h2 className="font-semibold text-gray-200 group-hover:text-white transition-colors">{phaseLabels[phase.phase]}</h2>
-                            <span className={`text-xs px-2 py-1 rounded-full ${statusStyles[phase.status]}`}>
+                            <span 
+                                id={idx === 0 ? "first-phase-badge" : undefined}
+                                className={`text-xs px-2 py-1 rounded-full ${statusStyles[phase.status]}`}
+                            >
                                 {statusLabels[phase.status] ?? phase.status}
                             </span>
                         </div>
@@ -113,6 +117,7 @@ export default async function DashboardPage() {
                     </div>
                 ))}
             </div>
+            <DashboardTour />
         </div>
     )
 }

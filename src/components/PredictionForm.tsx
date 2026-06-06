@@ -13,6 +13,7 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
     const [home, setHome] = useState(prediction?.home_goals_pred ?? 0)
     const [away, setAway] = useState(prediction?.away_goals_pred ?? 0)
     const [saved, setSaved] = useState(false)
+    const [showConfirm, setShowConfirm] = useState(false)
 
     async function handleSubmit() {
         await supabase.from('predictions').upsert({
@@ -23,6 +24,7 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
             is_locked: true,
         }, { onConflict: 'user_id,match_id' })
         setSaved(true)
+        setShowConfirm(false)
     }
 
     const locked = isLocked || saved
@@ -39,26 +41,58 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
                 <div className="flex items-center gap-2">
                     <input
                         type="number" min={0} value={home}
-                        disabled={locked}
+                        disabled={locked || showConfirm}
                         onChange={e => setHome(Number(e.target.value))}
                         className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
                     />
                     <span className="text-gray-500 text-sm">vs</span>
                     <input
                         type="number" min={0} value={away}
-                        disabled={locked}
+                        disabled={locked || showConfirm}
                         onChange={e => setAway(Number(e.target.value))}
                         className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
                     />
                 </div>
                 <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
-                {locked
-                    ? <span className="text-xs text-gray-500 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
-                    : <button onClick={handleSubmit} className="text-xs bg-blue-500 hover:bg-blue-400 text-black font-semibold px-3 py-2 rounded-lg transition-all hover:scale-[1.05] active:scale-[0.95] w-20 shadow-md shadow-blue-500/10">
+                {locked ? (
+                    <span className="text-xs text-gray-500 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
+                ) : showConfirm ? (
+                    <div className="w-20" />
+                ) : (
+                    <button 
+                        onClick={() => setShowConfirm(true)} 
+                        className="text-xs bg-blue-500 hover:bg-blue-400 text-black font-semibold px-3 py-2 rounded-lg transition-all hover:scale-[1.05] active:scale-[0.95] w-20 shadow-md shadow-blue-500/10 cursor-pointer"
+                    >
                         Guardar
                     </button>
-                }
+                )}
             </div>
+
+            {/* Confirmation Banner */}
+            {showConfirm && (
+                <div className="mt-2 bg-yellow-500/10 border border-yellow-500/20 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                        <span className="text-base leading-none">⚠️</span>
+                        <span className="text-xs text-yellow-500 font-medium leading-relaxed">
+                            ¿Confirmar predicción? Una vez guardada <b>no podrás volver a editarla</b>.
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                        <button
+                            onClick={() => setShowConfirm(false)}
+                            className="text-[11px] bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer border-0"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            className="text-[11px] bg-yellow-500 hover:bg-yellow-400 text-black font-bold px-2.5 py-1.5 rounded-lg transition-all active:scale-95 shadow-sm shadow-yellow-500/10 cursor-pointer border-0"
+                        >
+                            Confirmar
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     )
 }
