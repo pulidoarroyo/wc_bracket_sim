@@ -33,28 +33,97 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
         ? new Date(match.match_date).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
         : 'Fecha por definir'
 
+    const hasPrediction = prediction !== null
+    const Hp = prediction?.home_goals_pred
+    const Ap = prediction?.away_goals_pred
+    const Ha = match.home_goals
+    const Aa = match.away_goals
+
+    const isExact = hasPrediction && Hp === Ha && Ap === Aa
+    const isWinner = hasPrediction && !isExact && (
+        (Hp > Ap && Ha > Aa) ||
+        (Hp < Ap && Ha < Aa) ||
+        (Hp === Ap && Ha === Aa)
+    )
+
+    let feedbackElement = null
+    if (match.result_locked) {
+        if (!hasPrediction) {
+            feedbackElement = (
+                <div className="mt-2 bg-gray-950/40 border border-gray-800/80 rounded-xl p-3 flex items-center gap-2.5 text-xs text-gray-500 font-medium">
+                    <span>⚪</span>
+                    <span>No ingresaste un pronóstico para este partido.</span>
+                </div>
+            )
+        } else if (isExact) {
+            feedbackElement = (
+                <div className="mt-2 bg-green-500/10 border border-green-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-green-400 font-semibold shadow-sm shadow-green-500/5">
+                    <span>🎯</span>
+                    <span>¡Marcador exacto! Tu pronóstico: <b>{Hp}-{Ap}</b> | Resultado: <b>{Ha}-{Aa}</b>. Sumas <b>+3 puntos</b>.</span>
+                </div>
+            )
+        } else if (isWinner) {
+            feedbackElement = (
+                <div className="mt-2 bg-blue-500/10 border border-blue-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-blue-400 font-semibold shadow-sm shadow-blue-500/5">
+                    <span>🙌</span>
+                    <span>¡Ganador/Empate acertado! Tu pronóstico: <b>{Hp}-{Ap}</b> | Resultado: <b>{Ha}-{Aa}</b>. Sumas <b>+1 punto</b>.</span>
+                </div>
+            )
+        } else {
+            feedbackElement = (
+                <div className="mt-2 bg-red-500/10 border border-red-500/20 rounded-xl p-3 flex items-center gap-2.5 text-xs text-red-400/80 font-medium">
+                    <span>❌</span>
+                    <span>No sumaste puntos. Tu pronóstico: <b>{Hp}-{Ap}</b> | Resultado: <b>{Ha}-{Aa}</b>.</span>
+                </div>
+            )
+        }
+    }
+
     return (
         <div className={`bg-gray-900 border rounded-2xl p-5 flex flex-col gap-3 transition-all duration-300 ${locked ? 'border-gray-800 opacity-70' : 'border-blue-500/20 hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/[0.02]'}`}>
-            <span className="text-xs text-gray-500">{formattedDate}</span>
+            <div className="flex items-center justify-between text-xs text-gray-500">
+                <span>{formattedDate}</span>
+                {match.result_locked && (
+                    <span className="bg-gray-850 px-2.5 py-0.5 rounded-md text-[10px] font-semibold text-gray-400 border border-gray-800">Partido finalizado</span>
+                )}
+            </div>
+            
             <div className="flex items-center gap-4">
                 <span className="flex-1 text-right text-sm font-semibold">{match.home_team.name}</span>
-                <div className="flex items-center gap-2">
-                    <input
-                        type="number" min={0} value={home}
-                        disabled={locked || showConfirm}
-                        onChange={e => setHome(Number(e.target.value))}
-                        className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
-                    />
-                    <span className="text-gray-500 text-sm">vs</span>
-                    <input
-                        type="number" min={0} value={away}
-                        disabled={locked || showConfirm}
-                        onChange={e => setAway(Number(e.target.value))}
-                        className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
-                    />
-                </div>
+                
+                {match.result_locked ? (
+                    <div className="flex items-center gap-2">
+                        <span className="w-12 text-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg py-2 text-lg">
+                            {Ha}
+                        </span>
+                        <span className="text-gray-500 text-sm">vs</span>
+                        <span className="w-12 text-center bg-gray-950 border border-gray-850 text-white font-black rounded-lg py-2 text-lg">
+                            {Aa}
+                        </span>
+                    </div>
+                ) : (
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="number" min={0} value={home}
+                            disabled={locked || showConfirm}
+                            onChange={e => setHome(Number(e.target.value))}
+                            className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
+                        />
+                        <span className="text-gray-500 text-sm">vs</span>
+                        <input
+                            type="number" min={0} value={away}
+                            disabled={locked || showConfirm}
+                            onChange={e => setAway(Number(e.target.value))}
+                            className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
+                        />
+                    </div>
+                )}
+                
                 <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
-                {locked ? (
+                
+                {match.result_locked ? (
+                    <span className="text-xs text-gray-400 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">Finalizado</span>
+                ) : locked ? (
                     <span className="text-xs text-gray-500 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
                 ) : showConfirm ? (
                     <div className="w-20" />
@@ -93,6 +162,9 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
                     </div>
                 </div>
             )}
+
+            {/* Recap Alert */}
+            {feedbackElement}
         </div>
     )
 }

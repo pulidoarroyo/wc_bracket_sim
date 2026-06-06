@@ -53,7 +53,9 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                             {link.label}
                         </a>
                     ))}
-                    <span className="text-gray-500">{username}</span>
+                    <a href="/profile" className="text-gray-500 hover:text-white transition-colors font-medium">
+                        {username}
+                    </a>
                     <button 
                         onClick={startTour}
                         className="text-gray-400 hover:text-white transition-colors text-sm focus:outline-none flex items-center gap-1 cursor-pointer bg-transparent border-0 py-1"
@@ -100,7 +102,9 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                         </a>
                     ))}
                     <div className="flex items-center justify-between pt-2 border-t border-gray-800">
-                        <span className="text-gray-500">{username}</span>
+                        <a href="/profile" className="text-gray-500 hover:text-white transition-colors font-medium" onClick={() => setMenuOpen(false)}>
+                            {username}
+                        </a>
                         <div className="flex items-center gap-3">
                             <button 
                                 onClick={startTour}
