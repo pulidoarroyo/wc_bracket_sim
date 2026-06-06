@@ -3,3 +3,22 @@
 * {
   box-sizing: border-box;
 }
+
+button,
+a,
+select,
+input[type="submit"],
+input[type="button"],
+[role="button"] {
+  cursor: pointer;
+}
+
+button:disabled,
+input:disabled,
+select:disabled {
+  cursor: not-allowed;
+}
+
+button, a, input, select {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

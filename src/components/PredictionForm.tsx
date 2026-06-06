@@ -32,7 +32,7 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
         : 'Fecha por definir'
 
     return (
-        <div className={`bg-gray-900 border rounded-2xl p-5 flex flex-col gap-3 ${locked ? 'border-gray-800 opacity-75' : 'border-green-500/30'}`}>
+        <div className={`bg-gray-900 border rounded-2xl p-5 flex flex-col gap-3 transition-all duration-300 ${locked ? 'border-gray-800 opacity-70' : 'border-green-500/20 hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/[0.02]'}`}>
             <span className="text-xs text-gray-500">{formattedDate}</span>
             <div className="flex items-center gap-4">
                 <span className="flex-1 text-right text-sm font-semibold">{match.home_team.name}</span>
@@ -41,20 +41,20 @@ export default function PredictionForm({ match, prediction, isLocked, userId }: 
                         type="number" min={0} value={home}
                         disabled={locked}
                         onChange={e => setHome(Number(e.target.value))}
-                        className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+                        className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
                     />
                     <span className="text-gray-500 text-sm">vs</span>
                     <input
                         type="number" min={0} value={away}
                         disabled={locked}
                         onChange={e => setAway(Number(e.target.value))}
-                        className="w-12 text-center bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50"
+                        className="w-12 text-center bg-gray-800 hover:bg-gray-700/80 focus:bg-gray-800 rounded-lg py-2 text-lg font-bold outline-none focus:ring-2 focus:ring-green-500 disabled:opacity-50 disabled:hover:bg-gray-800 transition-colors"
                     />
                 </div>
                 <span className="flex-1 text-left text-sm font-semibold">{match.away_team.name}</span>
                 {locked
-                    ? <span className="text-xs text-gray-500 w-20 text-center">🔒 Bloqueado</span>
-                    : <button onClick={handleSubmit} className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-colors w-20">
+                    ? <span className="text-xs text-gray-500 w-20 text-center font-medium bg-gray-950/40 py-2 rounded-lg border border-gray-800/60">🔒 Bloqueado</span>
+                    : <button onClick={handleSubmit} className="text-xs bg-green-500 hover:bg-green-400 text-black font-semibold px-3 py-2 rounded-lg transition-all hover:scale-[1.05] active:scale-[0.95] w-20 shadow-md shadow-green-500/10">
                         Guardar
                     </button>
                 }

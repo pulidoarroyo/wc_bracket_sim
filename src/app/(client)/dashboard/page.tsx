@@ -43,57 +43,72 @@ export default async function DashboardPage() {
 
             {/* Score summary card */}
             {myStats && (
-                <div className="bg-gray-900 border border-gray-800 rounded-2xl p-5 flex items-center gap-6 flex-wrap">
-                    <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-gray-500">Posición</span>
-                        <span className="text-2xl font-bold text-yellow-400">#{myStats.position}</span>
+                <div className="bg-gray-900 border border-gray-800/80 rounded-2xl p-6 grid grid-cols-2 md:flex md:items-center md:justify-between gap-6 shadow-md shadow-black/20">
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-yellow-500/10 rounded-xl text-yellow-400 text-xl leading-none">🏅</div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-400 font-medium">Posición</span>
+                            <span className="text-2xl font-black text-yellow-400">#{myStats.position}</span>
+                        </div>
                     </div>
-                    <div className="w-px h-10 bg-gray-800 hidden sm:block" />
-                    <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-gray-500">Puntos totales</span>
-                        <span className="text-2xl font-bold">{myStats.total_points}</span>
+                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-green-500/10 rounded-xl text-green-400 text-xl leading-none">⚡</div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-400 font-medium">Puntos totales</span>
+                            <span className="text-2xl font-black text-white">{myStats.total_points}</span>
+                        </div>
                     </div>
-                    <div className="w-px h-10 bg-gray-800 hidden sm:block" />
-                    <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-gray-500">Marcadores exactos</span>
-                        <span className="text-2xl font-bold text-green-400">{myStats.exact_scores}</span>
+                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-emerald-500/10 rounded-xl text-emerald-400 text-xl leading-none">🎯</div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-400 font-medium">Exactos</span>
+                            <span className="text-2xl font-black text-emerald-400">{myStats.exact_scores}</span>
+                        </div>
                     </div>
-                    <div className="w-px h-10 bg-gray-800 hidden sm:block" />
-                    <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-gray-500">Ganador correcto</span>
-                        <span className="text-2xl font-bold text-blue-400">{myStats.correct_winners}</span>
+                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 text-xl leading-none">🙌</div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-400 font-medium">Ganador</span>
+                            <span className="text-2xl font-black text-blue-400">{myStats.correct_winners}</span>
+                        </div>
                     </div>
-                    <div className="w-px h-10 bg-gray-800 hidden sm:block" />
-                    <div className="flex flex-col gap-0.5">
-                        <span className="text-xs text-gray-500">Partidos jugados</span>
-                        <span className="text-2xl font-bold text-gray-300">{myStats.matches_scored}</span>
+                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
+                    <div className="flex items-center gap-3">
+                        <div className="p-2.5 bg-purple-500/10 rounded-xl text-purple-400 text-xl leading-none">⚽</div>
+                        <div className="flex flex-col">
+                            <span className="text-xs text-gray-400 font-medium">Jugados</span>
+                            <span className="text-2xl font-black text-purple-300">{myStats.matches_scored}</span>
+                        </div>
                     </div>
                 </div>
             )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {phases?.map(phase => (
-                    <div key={phase.id} className="bg-gray-900 rounded-2xl p-6 flex flex-col gap-4 border border-gray-800">
+                    <div key={phase.id} className="bg-gray-900 rounded-2xl p-6 flex flex-col gap-4 border border-gray-800 hover:border-gray-700 hover:shadow-xl hover:shadow-green-500/[0.02] transition-all duration-300 group">
                         <div className="flex items-center justify-between">
-                            <h2 className="font-semibold">{phaseLabels[phase.phase]}</h2>
+                            <h2 className="font-semibold text-gray-200 group-hover:text-white transition-colors">{phaseLabels[phase.phase]}</h2>
                             <span className={`text-xs px-2 py-1 rounded-full ${statusStyles[phase.status]}`}>
                                 {statusLabels[phase.status] ?? phase.status}
                             </span>
                         </div>
                         {phase.status === 'open' && (
                             <a href={`/predictions/${phase.phase}`}
-                                className="bg-green-500 hover:bg-green-400 text-black text-sm font-semibold text-center rounded-lg py-2 transition-colors">
+                                className="bg-green-500 hover:bg-green-400 text-black text-sm font-semibold text-center rounded-lg py-2 transition-all hover:scale-[1.02] active:scale-[0.98] shadow-md shadow-green-500/10">
                                 Hacer predicciones
                             </a>
                         )}
                         {phase.status === 'closed' && (
                             <a href={`/predictions/${phase.phase}`}
-                                className="bg-gray-800 hover:bg-gray-700 text-sm text-center rounded-lg py-2 transition-colors">
+                                className="bg-gray-800 hover:bg-gray-700 text-sm text-center rounded-lg py-2 transition-all hover:scale-[1.02] active:scale-[0.98] border border-gray-700">
                                 Ver predicciones
                             </a>
                         )}
                         {phase.status === 'locked' && (
-                            <span className="text-sm text-gray-600 text-center">Aún no disponible</span>
+                            <span className="text-sm text-gray-600 text-center py-2 bg-gray-950/40 rounded-lg border border-gray-900">Aún no disponible</span>
                         )}
                     </div>
                 ))}

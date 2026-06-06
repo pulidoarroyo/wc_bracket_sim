@@ -39,6 +39,9 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
     return (
         <div className="flex flex-col gap-6">
             <div>
+                <a href="/dashboard" className="text-sm text-green-400 hover:text-green-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
+                    ← Volver al inicio
+                </a>
                 <h1 className="text-3xl font-bold">{phaseLabels[phaseSlug]}</h1>
                 <p className="text-gray-400 mt-1">
                     {phase.status === 'open' ? 'Envía y bloquea tus predicciones.' : 'Las predicciones están bloqueadas.'}

@@ -18,6 +18,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                 { href: '/results', label: 'Resultados' },
                 { href: '/phases', label: 'Fases' },
                 { href: '/matches', label: 'Partidos' },
+                { href: '/users', label: 'Usuarios' },
             ]
             : []),
     ]
