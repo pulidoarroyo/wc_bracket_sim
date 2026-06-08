@@ -1,24 +1,26 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { saveResult } from '@/app/(admin)/results/actions'
 
 export default function ResultForm({ match }: { match: any }) {
-    const supabase = createClient()
     const [home, setHome] = useState(0)
     const [away, setAway] = useState(0)
     const [done, setDone] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
 
     async function handleSubmit() {
         setLoading(true)
-        await supabase
-            .from('matches')
-            .update({ home_goals: home, away_goals: away, result_locked: true })
-            .eq('id', match.id)
-        await supabase.rpc('calculate_match_scores', { p_match_id: match.id })
-        setDone(true)
-        setLoading(false)
+        setError('')
+        try {
+            await saveResult(match.id, home, away)
+            setDone(true)
+        } catch (e: any) {
+            setError(e.message ?? 'Error al guardar')
+        } finally {
+            setLoading(false)
+        }
     }
 
     if (done) return (
@@ -49,6 +51,7 @@ export default function ResultForm({ match }: { match: any }) {
                 </div>
                 <span className="flex-1 text-left text-xs sm:text-sm font-semibold truncate max-w-[120px] sm:max-w-none">{match.away_team.name}</span>
             </div>
+            {error && <p className="text-red-400 text-xs text-center">{error}</p>}
             <button
                 onClick={handleSubmit}
                 disabled={loading}
@@ -58,4 +61,4 @@ export default function ResultForm({ match }: { match: any }) {
             </button>
         </div>
     )
-}
+}

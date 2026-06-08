@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createMatch } from '@/app/(admin)/matches/actions'
 
 export default function MatchCreateForm({ teams, phases }: { teams: any[], phases: any[] }) {
-    const supabase = createClient()
     const [homeTeamId, setHomeTeamId] = useState('')
     const [awayTeamId, setAwayTeamId] = useState('')
     const [phase, setPhase] = useState('')
@@ -12,6 +11,7 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
     const [venue, setVenue] = useState('')
     const [saved, setSaved] = useState(false)
     const [error, setError] = useState('')
+    const [loading, setLoading] = useState(false)
 
     async function handleSubmit() {
         setError('')
@@ -22,21 +22,26 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
             return setError('El equipo local y visitante deben ser distintos.')
         }
 
-        const { error } = await supabase.from('matches').insert({
-            phase,
-            home_team_id: homeTeamId,
-            away_team_id: awayTeamId,
-            match_date: matchDate || null,
-            venue: venue || null,
-        })
-
-        if (error) return setError(error.message)
-        setSaved(true)
-        setTimeout(() => setSaved(false), 3000)
-        setHomeTeamId('')
-        setAwayTeamId('')
-        setMatchDate('')
-        setVenue('')
+        setLoading(true)
+        try {
+            await createMatch({
+                phase,
+                home_team_id: homeTeamId,
+                away_team_id: awayTeamId,
+                match_date: matchDate || null,
+                venue: venue || null,
+            })
+            setSaved(true)
+            setTimeout(() => setSaved(false), 3000)
+            setHomeTeamId('')
+            setAwayTeamId('')
+            setMatchDate('')
+            setVenue('')
+        } catch (e: any) {
+            setError(e.message ?? 'Error al crear partido')
+        } finally {
+            setLoading(false)
+        }
     }
 
     const knockoutPhases = phases.filter(p => p.phase !== 'group_stage')
@@ -113,9 +118,10 @@ export default function MatchCreateForm({ teams, phases }: { teams: any[], phase
 
             <button
                 onClick={handleSubmit}
-                className="bg-blue-500 hover:bg-blue-400 text-black font-semibold rounded-lg py-3 transition-colors"
+                disabled={loading}
+                className="bg-blue-500 hover:bg-blue-400 disabled:opacity-50 text-black font-semibold rounded-lg py-3 transition-colors"
             >
-                Crear partido
+                {loading ? 'Creando...' : 'Crear partido'}
             </button>
         </div>
     )

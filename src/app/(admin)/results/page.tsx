@@ -7,6 +7,14 @@ export default async function ResultsPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/login')
 
+    const { data: profile } = await supabase
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .single()
+
+    if (profile?.role !== 'admin') redirect('/dashboard')
+
     const { data: matches } = await supabase
         .from('matches')
         .select('*, home_team:teams!home_team_id(name), away_team:teams!away_team_id(name)')
