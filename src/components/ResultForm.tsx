@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { saveResult, deleteResult } from '@/app/(admin)/results/actions'
+import { saveResult, deleteResult, togglePredictionsLocked } from '@/app/(admin)/results/actions'
 
 export default function ResultForm({ match }: { match: any }) {
     const [home, setHome] = useState<number>(match.home_goals ?? 0)
@@ -11,6 +11,8 @@ export default function ResultForm({ match }: { match: any }) {
     const [error, setError] = useState('')
     const [showConfirm, setShowConfirm] = useState(false)
     const [showDelete, setShowDelete] = useState(false)
+    const [predictionsLocked, setPredictionsLocked] = useState(match.predictions_locked ?? false)
+    const [showLockConfirm, setShowLockConfirm] = useState(false)
 
     async function handleSubmit() {
         setLoading(true)
@@ -42,22 +44,43 @@ export default function ResultForm({ match }: { match: any }) {
         }
     }
 
+    async function handleToggleLock() {
+        setLoading(true)
+        setError('')
+        try {
+            await togglePredictionsLocked(match.id, !predictionsLocked)
+            setPredictionsLocked(!predictionsLocked)
+            setShowLockConfirm(false)
+        } catch (e: any) {
+            setError(e.message ?? 'Error al cambiar bloqueo')
+        } finally {
+            setLoading(false)
+        }
+    }
+
     const formattedDate = match.match_date
         ? new Date(match.match_date).toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' })
         : 'Fecha por definir'
 
-    const activeConfirm = showConfirm || showDelete
+    const activeConfirm = showConfirm || showDelete || showLockConfirm
 
     return (
         <div className={`bg-gray-900 border rounded-2xl p-4 sm:p-5 flex flex-col gap-3 transition-all duration-300 ${saved ? 'border-blue-500/30' : 'border-gray-800'}`}>
             {/* Date + saved badge */}
             <div className="flex items-center justify-between text-xs text-gray-500">
                 <span>{formattedDate}</span>
-                {saved && (
-                    <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-md text-[10px] font-semibold">
-                        ✓ Guardado
-                    </span>
-                )}
+                <div className="flex items-center gap-2">
+                    {predictionsLocked && (
+                        <span className="bg-orange-500/10 text-orange-400 border border-orange-500/20 px-2.5 py-0.5 rounded-md text-[10px] font-semibold">
+                            🔒 Predicciones bloqueadas
+                        </span>
+                    )}
+                    {saved && (
+                        <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 px-2.5 py-0.5 rounded-md text-[10px] font-semibold">
+                            ✓ Guardado
+                        </span>
+                    )}
+                </div>
             </div>
 
             {/* Teams + inputs + action buttons */}
@@ -99,6 +122,13 @@ export default function ResultForm({ match }: { match: any }) {
                                 🗑
                             </button>
                         )}
+                        <button
+                            onClick={() => setShowLockConfirm(true)}
+                            className={`h-9 w-9 flex items-center justify-center rounded-lg transition-colors border-0 cursor-pointer bg-transparent ${predictionsLocked ? 'text-orange-400 hover:text-orange-300 hover:bg-orange-500/10' : 'text-gray-500 hover:text-orange-400 hover:bg-orange-500/10'}`}
+                            title={predictionsLocked ? 'Desbloquear predicciones' : 'Bloquear predicciones'}
+                        >
+                            {predictionsLocked ? '🔒' : '🔓'}
+                        </button>
                     </div>
                 )}
             </div>
@@ -157,6 +187,37 @@ export default function ResultForm({ match }: { match: any }) {
                             className="text-[11px] bg-red-500 hover:bg-red-400 text-white font-bold px-2.5 py-1.5 rounded-lg transition-all active:scale-95 shadow-sm shadow-red-500/10 cursor-pointer border-0 disabled:opacity-50"
                         >
                             {loading ? '...' : 'Eliminar'}
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Lock / unlock predictions confirmation banner */}
+            {showLockConfirm && (
+                <div className="bg-orange-500/10 border border-orange-500/20 rounded-xl p-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2">
+                        <span className="text-base leading-none">{predictionsLocked ? '🔓' : '🔒'}</span>
+                        <span className="text-xs text-orange-400 font-medium leading-relaxed">
+                            {predictionsLocked
+                                ? <>¿Desbloquear predicciones? Los usuarios podrán <b>volver a editar</b> su pronóstico.</>
+                                : <>¿Bloquear predicciones? Los usuarios <b>ya no podrán modificar</b> su pronóstico para este partido.</>
+                            }
+                        </span>
+                    </div>
+                    <div className="flex items-center gap-2 self-end sm:self-auto shrink-0">
+                        <button
+                            onClick={() => setShowLockConfirm(false)}
+                            disabled={loading}
+                            className="text-[11px] bg-gray-800 hover:bg-gray-700 text-gray-300 font-semibold px-2.5 py-1.5 rounded-lg transition-colors cursor-pointer border-0 disabled:opacity-50"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            onClick={handleToggleLock}
+                            disabled={loading}
+                            className="text-[11px] bg-orange-500 hover:bg-orange-400 text-black font-bold px-2.5 py-1.5 rounded-lg transition-all active:scale-95 shadow-sm shadow-orange-500/10 cursor-pointer border-0 disabled:opacity-50"
+                        >
+                            {loading ? '...' : 'Confirmar'}
                         </button>
                     </div>
                 </div>

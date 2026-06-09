@@ -34,6 +34,19 @@ export async function saveResult(matchId: string, homeGoals: number, awayGoals: 
     revalidatePath('/results')
 }
 
+export async function togglePredictionsLocked(matchId: string, locked: boolean) {
+    const { supabase } = await assertAdmin()
+
+    const { error } = await supabase
+        .from('matches')
+        .update({ predictions_locked: locked })
+        .eq('id', matchId)
+
+    if (error) throw new Error(error.message)
+
+    revalidatePath('/results')
+}
+
 export async function deleteResult(matchId: string) {
     const { supabase } = await assertAdmin()
 

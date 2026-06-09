@@ -79,7 +79,7 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
                                     key={match.id}
                                     match={match}
                                     prediction={predictionsMap[match.id] ?? null}
-                                    isLocked={phase.status !== 'open' || !!predictionsMap[match.id]?.is_locked}
+                                    isLocked={phase.status !== 'open' || !!predictionsMap[match.id]?.is_locked || !!match.predictions_locked}
                                     userId={user.id}
                                 />
                             ))}
