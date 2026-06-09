@@ -5,8 +5,8 @@ import './globals.css'
 const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Quiniela NAVIORCA',
-  description: 'Plataforma de predicciones deportivas',
+  title: 'Quiniela 2026',
+  description: 'Mundial 2026',
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

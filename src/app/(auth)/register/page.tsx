@@ -29,7 +29,7 @@ export default function RegisterPage() {
             <form onSubmit={handleRegister} className="w-full max-w-sm bg-gray-900 rounded-2xl p-8 flex flex-col gap-5">
                 <div className="flex flex-col items-center gap-3 mb-2">
                     <img src="/favicon.ico" alt="Logo" className="w-16 h-16 object-contain animate-bounce-short" />
-                    <h1 className="text-2xl font-bold text-center">Quiniela NAVIORCA Mundial 2026</h1>
+                    <h1 className="text-2xl font-bold text-center">Quiniela Mundial 2026</h1>
                 </div>
                 <input
                     type="text"

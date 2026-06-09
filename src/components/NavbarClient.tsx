@@ -37,16 +37,16 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
             <div className="flex items-center justify-between">
                 <a href="/dashboard" className="text-blue-400 font-bold text-lg flex items-center gap-2.5 hover:text-blue-300 transition-colors">
                     <img src="/favicon.ico" alt="Logo" className="w-7 h-7 object-contain" />
-                    <span className="hidden xs:inline">Quiniela NAVIORCA Mundial 2026</span>
-                    <span className="xs:hidden">Quiniela NAVIORCA</span>
+                    <span className="hidden xs:inline">Quiniela Mundial 2026</span>
+                    <span className="xs:hidden">Quiniela Mundial 2026</span>
                 </a>
 
                 {/* Desktop links */}
                 <div className="hidden sm:flex items-center gap-6 text-sm">
                     {links.map(link => (
-                        <a 
-                            key={link.href} 
-                            href={link.href} 
+                        <a
+                            key={link.href}
+                            href={link.href}
                             id={link.href === '/leaderboard' ? 'nav-leaderboard' : undefined}
                             className="text-gray-400 hover:text-white transition-colors"
                         >
@@ -56,7 +56,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                     <a href="/profile" className="text-gray-500 hover:text-white transition-colors font-medium">
                         {username}
                     </a>
-                    <button 
+                    <button
                         onClick={startTour}
                         className="text-gray-400 hover:text-white transition-colors text-sm focus:outline-none flex items-center gap-1 cursor-pointer bg-transparent border-0 py-1"
                         title="Ver tutorial guiado"
@@ -106,7 +106,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                             {username}
                         </a>
                         <div className="flex items-center gap-3">
-                            <button 
+                            <button
                                 onClick={startTour}
                                 className="text-gray-400 hover:text-white transition-colors text-sm focus:outline-none cursor-pointer bg-transparent border-0"
                             >

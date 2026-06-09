@@ -1,4 +1,4 @@
-# Quiniela NAVIORCA - Mundial 2026
+# Quiniela - Mundial 2026
 
 Plataforma premium de predicciones deportivas (quiniela) para el Mundial 2026. Permite a los usuarios registrarse, pronosticar resultados de partidos por fases, competir en una tabla de clasificación, y cuenta con un panel de administración completo para gestionar partidos, resultados y usuarios.
 
