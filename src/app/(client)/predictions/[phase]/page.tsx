@@ -36,6 +36,16 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
         predictions?.map(p => [p.match_id, p]) ?? []
     )
 
+    // Group matches by date
+    const grouped = (matches ?? []).reduce<Record<string, typeof matches>>((acc, match) => {
+        const label = match.match_date
+            ? new Date(match.match_date).toLocaleDateString('es-MX', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' })
+            : 'Fecha por definir'
+        if (!acc[label]) acc[label] = []
+        acc[label]!.push(match)
+        return acc
+    }, {})
+
     return (
         <div className="flex flex-col gap-6">
             <div>
@@ -47,28 +57,36 @@ export default async function PredictionsPage({ params }: { params: Promise<{ ph
                     {phase.status === 'open' ? 'Envía y bloquea tus predicciones.' : 'Las predicciones están bloqueadas.'}
                 </p>
             </div>
-            <div className="flex flex-col gap-3">
-                {!matches || matches.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
-                        <span className="text-5xl">🏗️</span>
-                        <p className="text-lg font-semibold text-gray-300">Aún no hay partidos en esta fase</p>
-                        <p className="text-sm text-gray-500 max-w-xs">El administrador todavía no ha cargado los partidos. Vuelve más tarde.</p>
-                        <a href="/dashboard" className="mt-2 text-sm text-blue-400 hover:text-blue-300 transition-colors">
-                            ← Volver al inicio
-                        </a>
-                    </div>
-                ) : (
-                    matches.map(match => (
-                        <PredictionForm
-                            key={match.id}
-                            match={match}
-                            prediction={predictionsMap[match.id] ?? null}
-                            isLocked={phase.status !== 'open' || !!predictionsMap[match.id]?.is_locked}
-                            userId={user.id}
-                        />
-                    ))
-                )}
-            </div>
+
+            {Object.keys(grouped).length === 0 ? (
+                <div className="flex flex-col items-center justify-center gap-3 py-16 text-center">
+                    <span className="text-5xl">🏗️</span>
+                    <p className="text-lg font-semibold text-gray-300">Aún no hay partidos en esta fase</p>
+                    <p className="text-sm text-gray-500 max-w-xs">El administrador todavía no ha cargado los partidos. Vuelve más tarde.</p>
+                    <a href="/dashboard" className="mt-2 text-sm text-blue-400 hover:text-blue-300 transition-colors">
+                        ← Volver al inicio
+                    </a>
+                </div>
+            ) : (
+                <div className="flex flex-col gap-6">
+                    {Object.entries(grouped).map(([dateLabel, dayMatches]) => (
+                        <div key={dateLabel} className="flex flex-col gap-3">
+                            <h2 className="text-xs font-semibold uppercase tracking-widest text-gray-500 capitalize">
+                                {dateLabel}
+                            </h2>
+                            {dayMatches!.map(match => (
+                                <PredictionForm
+                                    key={match.id}
+                                    match={match}
+                                    prediction={predictionsMap[match.id] ?? null}
+                                    isLocked={phase.status !== 'open' || !!predictionsMap[match.id]?.is_locked}
+                                    userId={user.id}
+                                />
+                            ))}
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

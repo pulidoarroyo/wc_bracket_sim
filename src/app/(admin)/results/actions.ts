@@ -33,3 +33,16 @@ export async function saveResult(matchId: string, homeGoals: number, awayGoals: 
 
     revalidatePath('/results')
 }
+
+export async function deleteResult(matchId: string) {
+    const { supabase } = await assertAdmin()
+
+    const { error } = await supabase
+        .from('matches')
+        .update({ home_goals: null, away_goals: null, result_locked: false })
+        .eq('id', matchId)
+
+    if (error) throw new Error(error.message)
+
+    revalidatePath('/results')
+}
