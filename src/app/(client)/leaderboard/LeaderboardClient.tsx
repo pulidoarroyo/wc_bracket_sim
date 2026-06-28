@@ -25,6 +25,7 @@ export default function LeaderboardClient({
     predictions,
     currentUserId
 }: LeaderboardClientProps) {
+    const [activeTab, setActiveTab] = useState<'groups' | 'knockout' | 'general'>('general')
     const [expandedUserId, setExpandedUserId] = useState<string | null>(null)
 
     // Process predictions by user
@@ -39,10 +40,32 @@ export default function LeaderboardClient({
         pts: number
     }>> = {}
 
+    // Initialize userStatsMap for all users
+    const userStatsMap: Record<string, {
+        total_points: number
+        exact_scores: number
+        correct_winners: number
+        matches_scored: number
+    }> = {}
+
+    initialLeaderboard.forEach(entry => {
+        userStatsMap[entry.user_id] = {
+            total_points: 0,
+            exact_scores: 0,
+            correct_winners: 0,
+            matches_scored: 0
+        }
+    })
+
     predictions.forEach(p => {
         // Handle case where matches could be an array or a single object
         const match = Array.isArray(p.matches) ? p.matches[0] : p.matches
         if (!match || !match.result_locked) return
+
+        // Filter based on activeTab
+        const isGroupStage = match.phase === 'group_stage'
+        if (activeTab === 'groups' && !isGroupStage) return
+        if (activeTab === 'knockout' && isGroupStage) return
 
         const hp = p.home_goals_pred
         const ap = p.away_goals_pred
@@ -80,16 +103,49 @@ export default function LeaderboardClient({
             status,
             pts
         })
-    })
 
+        if (!userStatsMap[p.user_id]) {
+            userStatsMap[p.user_id] = {
+                total_points: 0,
+                exact_scores: 0,
+                correct_winners: 0,
+                matches_scored: 0
+            }
+        }
+
+        userStatsMap[p.user_id].total_points += pts
+        if (isExact) {
+            userStatsMap[p.user_id].exact_scores += 1
+        } else if (isWinner) {
+            userStatsMap[p.user_id].correct_winners += 1
+        }
+        userStatsMap[p.user_id].matches_scored += 1
+    })
 
     // Sort predictions for each user by date descending
     Object.keys(userPredictionsMap).forEach(userId => {
         userPredictionsMap[userId].sort((a, b) => new Date(b.matchDate).getTime() - new Date(a.matchDate).getTime())
     })
 
+    // Map initialLeaderboard entries to their dynamically computed stats
+    const computedLeaderboard = initialLeaderboard.map(entry => {
+        const stats = userStatsMap[entry.user_id] || {
+            total_points: 0,
+            exact_scores: 0,
+            correct_winners: 0,
+            matches_scored: 0
+        }
+        return {
+            ...entry,
+            total_points: stats.total_points,
+            exact_scores: stats.exact_scores,
+            correct_winners: stats.correct_winners,
+            matches_scored: stats.matches_scored
+        }
+    })
+
     // 1. Sort the leaderboard using tie-breaking rules
-    const sortedLeaderboard = [...initialLeaderboard].sort((a, b) => {
+    const sortedLeaderboard = [...computedLeaderboard].sort((a, b) => {
         if (b.total_points !== a.total_points) {
             return b.total_points - a.total_points
         }
@@ -137,6 +193,39 @@ export default function LeaderboardClient({
                 <h1 className="text-3xl font-bold">Clasificación 🏅</h1>
                 <p className="text-gray-400 mt-1">Criterio de desempate: 1º Puntos, 2º Marcadores Exactos, 3º Ganadores Acertados.</p>
             </div>
+            {/* Phase Tabs Switcher */}
+            <div className="flex bg-gray-900 border border-gray-800 p-1 rounded-2xl self-start gap-1 w-full sm:w-auto">
+                <button
+                    onClick={() => { setActiveTab('general'); setExpandedUserId(null); }}
+                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                        activeTab === 'general'
+                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
+                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+                    }`}
+                >
+                    Clasificación General
+                </button>
+                <button
+                    onClick={() => { setActiveTab('groups'); setExpandedUserId(null); }}
+                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                        activeTab === 'groups'
+                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
+                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+                    }`}
+                >
+                    Fase de Grupos
+                </button>
+                <button
+                    onClick={() => { setActiveTab('knockout'); setExpandedUserId(null); }}
+                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
+                        activeTab === 'knockout'
+                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
+                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
+                    }`}
+                >
+                    Eliminatorias (R32+)
+                </button>
+            </div>
 
             {/* Tie-breaker Rules Info Banner */}
             <div className="bg-gray-900/60 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -167,13 +256,35 @@ export default function LeaderboardClient({
                 </div>
             </div>
 
+            {/* Transparency & Drive Link Banner */}
+            <div className="bg-gradient-to-r from-blue-950/20 to-indigo-950/20 border border-blue-900/20 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="flex items-start gap-3">
+                    <span className="text-2xl mt-0.5">🔍</span>
+                    <div>
+                        <h3 className="font-semibold text-white text-sm">Transparencia del Juego</h3>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                            Para garantizar la transparencia de los resultados, puedes acceder a las planillas completas de Excel con todas las predicciones y cálculos del torneo.
+                        </p>
+                    </div>
+                </div>
+                <a 
+                    href="https://drive.google.com/drive/folders/1WqS7crV-fTSM4wU4eGEFaXy3RgR2r8fb?usp=sharing"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] shadow-md shadow-blue-500/20 shrink-0"
+                >
+                    <span>Ver Excel en Drive</span>
+                    <span>↗</span>
+                </a>
+            </div>
+
             {/* Mobile View */}
             <div className="sm:hidden flex flex-col gap-2.5">
                 {rankedLeaderboard.map((entry) => {
                     const isCurrentUser = currentUserId && entry.user_id === currentUserId
                     const pos = entry.calculatedPosition
                     const medal = pos === 1 ? '🥇' : pos === 2 ? '🥈' : pos === 3 ? '🥉' : null
-                    const userForm = (userPredictionsMap[entry.user_id] || []).slice(0, 5)
+                    const userForm = (userPredictionsMap[entry.user_id] || []).slice(0, 7)
                     const isExpanded = expandedUserId === entry.user_id
 
                     return (
@@ -275,7 +386,7 @@ export default function LeaderboardClient({
                         <tr className="border-b border-gray-800 text-gray-400 bg-gray-950/20">
                             <th className="text-left px-6 py-4 w-16">#</th>
                             <th className="text-left px-6 py-4">Jugador</th>
-                            <th className="text-center px-6 py-4 w-40">Últimos Pronósticos</th>
+                            <th className="text-center px-6 py-4 w-56">Últimos Pronósticos</th>
                             <th className="text-right px-6 py-4 w-28">Puntos</th>
                             <th className="text-right px-6 py-4 w-24">Exactos (🎯)</th>
                             <th className="text-right px-6 py-4 w-24">Ganador (🙌)</th>
@@ -286,7 +397,7 @@ export default function LeaderboardClient({
                         {rankedLeaderboard.map((entry) => {
                             const isCurrentUser = currentUserId && entry.user_id === currentUserId
                             const pos = entry.calculatedPosition
-                            const userForm = (userPredictionsMap[entry.user_id] || []).slice(0, 5)
+                            const userForm = (userPredictionsMap[entry.user_id] || []).slice(0, 7)
                             const isExpanded = expandedUserId === entry.user_id
 
                             return (
@@ -366,7 +477,7 @@ export default function LeaderboardClient({
                                                 <div className="flex flex-col gap-2">
                                                     <div className="flex items-center justify-between border-b border-gray-850 pb-2 mb-1">
                                                         <h4 className="text-xs font-bold text-blue-400 uppercase tracking-wider">Historial de Predicciones Recientes</h4>
-                                                        <span className="text-[11px] text-gray-500 italic">Mostrando los últimos 5 partidos finalizados</span>
+                                                        <span className="text-[11px] text-gray-500 italic">Mostrando los últimos 7 partidos finalizados</span>
                                                     </div>
                                                     
                                                     {userForm.length === 0 ? (

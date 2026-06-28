@@ -23,6 +23,7 @@ export default async function LeaderboardPage() {
             matches!inner (
                 id,
                 match_date,
+                phase,
                 home_goals,
                 away_goals,
                 result_locked,
