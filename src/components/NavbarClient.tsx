@@ -21,6 +21,7 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
     }
 
     const links = [
+        { href: '/today', label: 'Hoy' },
         { href: '/leaderboard', label: 'Clasificación' },
         ...(isAdmin
             ? [
@@ -37,8 +38,8 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
             <div className="flex items-center justify-between">
                 <a href="/dashboard" className="text-blue-400 font-bold text-lg flex items-center gap-2.5 hover:text-blue-300 transition-colors">
                     <img src="/favicon.ico" alt="Logo" className="w-7 h-7 object-contain" />
-                    <span className="hidden xs:inline">Quiniela Mundial 2026</span>
-                    <span className="xs:hidden">Quiniela Mundial 2026</span>
+                    <span className="hidden xs:inline"> Mundial 2026</span>
+                    <span className="xs:hidden"> Mundial 2026</span>
                 </a>
 
                 {/* Desktop links */}
@@ -74,12 +75,10 @@ export default function NavbarClient({ username, isAdmin }: NavbarClientProps) {
                     aria-label="Abrir menú"
                 >
                     {menuOpen ? (
-                        /* X icon */
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     ) : (
-                        /* Hamburger icon */
                         <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
