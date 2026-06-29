@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 export default async function TodayPage() {
     const supabase = await createClient()
@@ -24,13 +25,16 @@ export default async function TodayPage() {
     if (matches && matches.length > 0) {
         const matchIds = matches.map((m: any) => m.id)
 
+        // Use admin client to bypass RLS — regular clients can only read their own rows.
+        // Safe here because we run server-side and only expose locked predictions.
+        const adminSupabase = createAdminClient()
         const [{ data: predictions }, { data: profiles }] = await Promise.all([
-            supabase
+            adminSupabase
                 .from('predictions')
                 .select('match_id, home_goals_pred, away_goals_pred, user_id')
                 .in('match_id', matchIds)
                 .eq('is_locked', true),
-            supabase.from('profiles').select('id, username'),
+            adminSupabase.from('profiles').select('id, username'),
         ])
 
         const profileMap = Object.fromEntries(profiles?.map((p: any) => [p.id, p.username]) ?? [])
