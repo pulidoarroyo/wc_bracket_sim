@@ -25,7 +25,6 @@ export default function LeaderboardClient({
     predictions,
     currentUserId
 }: LeaderboardClientProps) {
-    const [activeTab, setActiveTab] = useState<'groups' | 'knockout' | 'general'>('general')
     const [expandedUserId, setExpandedUserId] = useState<string | null>(null)
 
     // Process predictions by user
@@ -62,10 +61,8 @@ export default function LeaderboardClient({
         const match = Array.isArray(p.matches) ? p.matches[0] : p.matches
         if (!match || !match.result_locked) return
 
-        // Filter based on activeTab
-        const isGroupStage = match.phase === 'group_stage'
-        if (activeTab === 'groups' && !isGroupStage) return
-        if (activeTab === 'knockout' && isGroupStage) return
+        // Skip group stage matches (only count from round of 32 onwards)
+        if (match.phase === 'group_stage') return
 
         const hp = p.home_goals_pred
         const ap = p.away_goals_pred
@@ -190,42 +187,10 @@ export default function LeaderboardClient({
                 <a href="/dashboard" className="text-sm text-blue-400 hover:text-blue-300 font-medium inline-flex items-center gap-1.5 mb-4 hover:translate-x-[-2px] transition-transform">
                     ← Volver al inicio
                 </a>
-                <h1 className="text-3xl font-bold">Clasificación 🏅</h1>
-                <p className="text-gray-400 mt-1">Criterio de desempate: 1º Puntos, 2º Marcadores Exactos, 3º Ganadores Acertados.</p>
+                <h1 className="text-3xl font-bold">Clasificación (R32+) 🏅</h1>
+                <p className="text-gray-400 mt-1">Solo se computan puntos a partir de la Ronda de 32. Desempate: 1º Puntos, 2º Marcadores Exactos, 3º Ganadores Acertados.</p>
             </div>
-            {/* Phase Tabs Switcher */}
-            <div className="flex bg-gray-900 border border-gray-800 p-1 rounded-2xl self-start gap-1 w-full sm:w-auto">
-                <button
-                    onClick={() => { setActiveTab('general'); setExpandedUserId(null); }}
-                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                        activeTab === 'general'
-                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
-                    }`}
-                >
-                    Clasificación General
-                </button>
-                <button
-                    onClick={() => { setActiveTab('groups'); setExpandedUserId(null); }}
-                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                        activeTab === 'groups'
-                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
-                    }`}
-                >
-                    Fase de Grupos
-                </button>
-                <button
-                    onClick={() => { setActiveTab('knockout'); setExpandedUserId(null); }}
-                    className={`flex-1 sm:flex-none px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all cursor-pointer ${
-                        activeTab === 'knockout'
-                            ? 'bg-blue-500 text-black shadow-md shadow-blue-500/10'
-                            : 'text-gray-400 hover:text-white hover:bg-gray-800/40'
-                    }`}
-                >
-                    Eliminatorias (R32+)
-                </button>
-            </div>
+
 
             {/* Tie-breaker Rules Info Banner */}
             <div className="bg-gray-900/60 border border-gray-800 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -256,27 +221,7 @@ export default function LeaderboardClient({
                 </div>
             </div>
 
-            {/* Transparency & Drive Link Banner */}
-            <div className="bg-gradient-to-r from-blue-950/20 to-indigo-950/20 border border-blue-900/20 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex items-start gap-3">
-                    <span className="text-2xl mt-0.5">🔍</span>
-                    <div>
-                        <h3 className="font-semibold text-white text-sm">Transparencia del Juego</h3>
-                        <p className="text-xs text-gray-400 mt-0.5">
-                            Para garantizar la transparencia de los resultados, puedes acceder a las planillas completas de Excel con todas las predicciones y cálculos del torneo.
-                        </p>
-                    </div>
-                </div>
-                <a 
-                    href="https://drive.google.com/drive/folders/1WqS7crV-fTSM4wU4eGEFaXy3RgR2r8fb?usp=sharing"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all hover:scale-[1.02] shadow-md shadow-blue-500/20 shrink-0"
-                >
-                    <span>Ver Excel en Drive</span>
-                    <span>↗</span>
-                </a>
-            </div>
+
 
             {/* Mobile View */}
             <div className="sm:hidden flex flex-col gap-2.5">
