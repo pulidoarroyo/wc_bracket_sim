@@ -29,10 +29,9 @@ export default async function DashboardPage() {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) redirect('/login')
 
-    const [{ data: phases }, { data: profile }, { data: myStats }] = await Promise.all([
+    const [{ data: phases }, { data: profile }] = await Promise.all([
         supabase.from('phases').select('*').order('id'),
         supabase.from('profiles').select('username, role').eq('id', user.id).single(),
-        supabase.from('leaderboard').select('*').eq('user_id', user.id).single(),
     ])
 
     return (
@@ -41,51 +40,6 @@ export default async function DashboardPage() {
                 <h1 className="text-3xl font-bold">¡Bienvenido, {profile?.username}! 👋</h1>
                 <p className="text-gray-400 mt-1">Selecciona una fase para ingresar tus predicciones.</p>
             </div>
-
-            {/* Score summary card */}
-            {myStats && (
-                <div id="dashboard-stats" className="bg-gray-900 border border-gray-800/80 rounded-2xl p-6 grid grid-cols-2 md:flex md:items-center md:justify-between gap-6 shadow-md shadow-black/20">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-yellow-500/10 rounded-xl text-yellow-400 text-xl leading-none">🏅</div>
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-400 font-medium">Posición</span>
-                            <span className="text-2xl font-black text-yellow-400">#{myStats.position}</span>
-                        </div>
-                    </div>
-                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
-                    <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-blue-500/10 rounded-xl text-blue-400 text-xl leading-none">⚡</div>
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-400 font-medium">Puntos totales</span>
-                            <span className="text-2xl font-black text-white">{myStats.total_points}</span>
-                        </div>
-                    </div>
-                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
-                    <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-sky-500/10 rounded-xl text-sky-400 text-xl leading-none">🎯</div>
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-400 font-medium">Exactos</span>
-                            <span className="text-2xl font-black text-sky-400">{myStats.exact_scores}</span>
-                        </div>
-                    </div>
-                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
-                    <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-slate-500/10 rounded-xl text-slate-400 text-xl leading-none">🙌</div>
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-400 font-medium">Ganador</span>
-                            <span className="text-2xl font-black text-slate-400">{myStats.correct_winners}</span>
-                        </div>
-                    </div>
-                    <div className="w-px h-10 bg-gray-800 hidden md:block" />
-                    <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-purple-500/10 rounded-xl text-purple-400 text-xl leading-none">⚽</div>
-                        <div className="flex flex-col">
-                            <span className="text-xs text-gray-400 font-medium">Jugados</span>
-                            <span className="text-2xl font-black text-purple-300">{myStats.matches_scored}</span>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4" id="phase-cards-container">
                 {phases?.map((phase, idx) => (

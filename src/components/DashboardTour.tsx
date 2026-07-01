@@ -17,15 +17,6 @@ export default function DashboardTour() {
                 doneBtnText: '¡Comenzar!',
                 steps: [
                     {
-                        element: '#dashboard-stats',
-                        popover: {
-                            title: '📊 Tu Panel de Puntos',
-                            description: 'Aquí verás tu posición actual en la tabla, tus puntos totales, y cuántos marcadores exactos o ganadores has acertado.',
-                            side: 'bottom',
-                            align: 'start'
-                        }
-                    },
-                    {
                         element: '#first-phase-badge',
                         popover: {
                             title: '🏷️ Estado de la Fase',
